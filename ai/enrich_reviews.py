@@ -48,17 +48,18 @@ def get_connection():
         user=os.getenv("SNOWFLAKE_USER"),
         password=os.getenv("SNOWFLAKE_PASSWORD"),
         account=os.getenv("SNOWFLAKE_ACCOUNT"),
-        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
-        database=os.getenv("SNOWFLAKE_DATABASE"),
-        schema=os.getenv("SNOWFLAKE_SCHEMA"),
+        warehouse=os.getenv("SNOWFLAKE_WAREHOUSE") or "ANYTIME_FOOD_WH",
+        database=os.getenv("SNOWFLAKE_DATABASE") or "ANYTIME_FOOD",
+        schema=os.getenv("SNOWFLAKE_SCHEMA") or "AI",
+        role=os.getenv("SNOWFLAKE_ROLE") or "DBT_ROLE",
     )
 
 
 def create_output_table(cursor):
-    cursor.execute("CREATE SCHEMA IF NOT EXISTS ZOMATO.AI")
+    cursor.execute("CREATE SCHEMA IF NOT EXISTS ANYTIME_FOOD.AI")
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS ZOMATO.AI.REVIEW_ENRICHED (
+        CREATE TABLE IF NOT EXISTS ANYTIME_FOOD.AI.REVIEW_ENRICHED (
             REVIEW_ID STRING,
             SENTIMENT_LABEL STRING,
             SENTIMENT_SCORE FLOAT,
@@ -73,10 +74,10 @@ def create_output_table(cursor):
 def get_reviews_to_enrich(cursor):
     cursor.execute(f"""
         SELECT REVIEW_ID, COMMENT
-        FROM ZOMATO.RAW.REVIEWS
+        FROM ANYTIME_FOOD.RAW.REVIEWS
         WHERE REVIEW_ID NOT IN (
             SELECT REVIEW_ID
-            FROM ZOMATO.AI.REVIEW_ENRICHED
+            FROM ANYTIME_FOOD.AI.REVIEW_ENRICHED
         )
         LIMIT {SAMPLE_N}
     """)
@@ -115,7 +116,7 @@ def save_results(cursor, results):
 
     cursor.executemany(
         """
-        INSERT INTO ZOMATO.AI.REVIEW_ENRICHED
+        INSERT INTO ANYTIME_FOOD.AI.REVIEW_ENRICHED
             (
                 review_id,
                 sentiment_label,

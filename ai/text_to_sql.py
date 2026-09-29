@@ -152,8 +152,8 @@ def generate_sql(question):
 
     sql = json.loads(answer)["sql"]
 
-    sql = sql.replace("ZOMATO.MARTS.", "")
-    sql = sql.replace("ZOMATO.", "")
+    sql = sql.replace("ANYTIME_FOOD.MARTS.", "").replace("ANYTIME-FOOD.MARTS.", "")
+    sql = sql.replace("ANYTIME_FOOD.", "").replace("ANYTIME-FOOD.", "")
 
     return sql.strip().rstrip(";")
 
@@ -181,7 +181,7 @@ def run_query(sql):
     return cursor.execute(sql).fetch_pandas_all()
 
 
-st.title("Chat with your Zomato Data")
+st.title("Chat with your Anytime-Food Data")
 
 st.caption(
     f"Ask in English, {MODEL} writes the SQL, Snowflake runs it"

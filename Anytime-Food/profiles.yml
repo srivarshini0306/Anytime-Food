@@ -1,0 +1,27 @@
+Anytime-Food:
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      database: ANYTIME_FOOD
+      warehouse: ANYTIME_FOOD_WH
+      schema: STAGING
+      role: DBT_ROLE
+      threads: 8
+  target: dev
+
+ANYTIME_FOOD:
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      database: ANYTIME_FOOD
+      warehouse: ANYTIME_FOOD_WH
+      schema: STAGING
+      role: DBT_ROLE
+      threads: 8
+  target: dev

@@ -72,7 +72,7 @@ def read_reviews_from_snowflake():
             CITY,
             RATING,
             COMMENT
-        FROM ZOMATO.STAGING.STG_REVIEWS
+        FROM ANYTIME_FOOD.STAGING.STG_REVIEWS
         SAMPLE ({NEW_REVIEWS} ROWS)
     """
 
@@ -126,7 +126,7 @@ def load_reviews():
 # STREAMLIT UI
 # ============================================================
 
-st.title("Chat with your Zomato Reviews")
+st.title("Chat with your Anytime-Food Reviews")
 
 st.caption(
     f"Searching {NEW_REVIEWS} reviews "
@@ -194,7 +194,7 @@ def ask_llm(question, top_reviews):
 
 
     system_prompt = """
-You are a helpful assistant analyzing Zomato customer reviews.
+You are a helpful assistant analyzing Anytime-Food customer reviews.
 
 Answer ONLY using the customer reviews provided in the context.
 

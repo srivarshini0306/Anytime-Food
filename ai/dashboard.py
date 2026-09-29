@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 # PAGE CONFIGURATION & METADATA
 # ============================================================
 st.set_page_config(
-    page_title="Zomato AI Analytics Hub",
+    page_title="Anytime-Food AI Analytics Hub",
     page_icon="🍔",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -35,7 +35,7 @@ load_dotenv(dotenv_path=env_path)
 CACHE_FILE = CURRENT_DIR / "review_embeddings.parquet"
 
 # ============================================================
-# CUSTOM CSS / THEME INJECTION (Zomato Crimson & Sleek Dark Glass)
+# CUSTOM CSS / THEME INJECTION (Anytime-Food Crimson & Sleek Dark Glass)
 # ============================================================
 st.markdown(
     """
@@ -43,9 +43,9 @@ st.markdown(
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
     :root {
-        --zomato-red: #E23744;
-        --zomato-crimson: #CB202D;
-        --zomato-coral: #FF5A60;
+        --anytime-food-red: #E23744;
+        --anytime-food-crimson: #CB202D;
+        --anytime-food-coral: #FF5A60;
         --bg-surface: rgba(22, 27, 34, 0.75);
         --bg-card: rgba(30, 36, 46, 0.65);
         --border-subtle: rgba(255, 255, 255, 0.08);
@@ -501,7 +501,7 @@ def fetch_reviews_from_snowflake(sample_size: int = DEFAULT_SAMPLE_SIZE):
             CITY,
             RATING,
             COMMENT
-        FROM ZOMATO.STAGING.STG_REVIEWS
+        FROM ANYTIME_FOOD.STAGING.STG_REVIEWS
         SAMPLE ({sample_size} ROWS)
     """
     df = conn.cursor().execute(query).fetch_pandas_all()
@@ -575,7 +575,7 @@ def ask_rag_llm(question: str, top_reviews: pd.DataFrame, model_name: str, tempe
         )
 
     system_prompt = """
-You are a senior customer intelligence analyst for Zomato food delivery.
+You are a senior customer intelligence analyst for Anytime-Food food delivery.
 Answer the user's question clearly, concisely, and accurately based ONLY on the customer reviews provided in the context.
 
 Formatting Guidelines:
@@ -621,7 +621,7 @@ def generate_sql(question: str, model_name: str = DEFAULT_SQL_MODEL):
 
     answer = response.choices[0].message.content
     sql = json.loads(answer)["sql"]
-    sql = sql.replace("ZOMATO.MARTS.", "").replace("ZOMATO.", "")
+    sql = sql.replace("ANYTIME_FOOD.MARTS.", "").replace("ANYTIME-FOOD.MARTS.", "").replace("ANYTIME_FOOD.", "").replace("ANYTIME-FOOD.", "")
     return sql.strip().rstrip(";")
 
 def is_sql_safe(sql: str) -> tuple[bool, str]:
@@ -656,7 +656,7 @@ with st.sidebar:
                 🍕
             </div>
             <div>
-                <div style="font-size:18px; font-weight:800; color:var(--text-color, #1e293b); letter-spacing:-0.3px;">ZOMATO AI</div>
+                <div style="font-size:18px; font-weight:800; color:var(--text-color, #1e293b); letter-spacing:-0.3px;">ANYTIME-FOOD AI</div>
                 <div style="font-size:11px; font-weight:600; color:#64748B; text-transform:uppercase; letter-spacing:0.8px;">Intelligence Studio</div>
             </div>
         </div>
@@ -707,7 +707,7 @@ with st.sidebar:
 
     sf_color = "#10B981" if has_sf else "#E23744"
     groq_color = "#10B981" if has_groq else "#E23744"
-    sf_text = f"Connected ({env_creds['database'] or 'ZOMATO'})" if has_sf else "Missing Credentials"
+    sf_text = f"Connected ({env_creds['database'] or 'ANYTIME_FOOD'})" if has_sf else "Missing Credentials"
     groq_text = "API Key Active" if has_groq else "Missing GROQ_API_KEY"
 
     st.markdown(
@@ -744,7 +744,7 @@ st.markdown(
     """
     <div class="hero-banner">
         <div class="hero-title">
-            <span>🍔 Zomato AI Analytics Suite</span>
+            <span>🍔 Anytime-Food AI Analytics Suite</span>
         </div>
         <div class="hero-subtitle">
             Enterprise Generative Intelligence Hub: Natural Language Data Warehousing & Semantic Review Intelligence
@@ -909,7 +909,7 @@ with tab_rag:
             clean_display = st.session_state.last_rag_reviews[["review_id", "city", "rating", "similarity_score", "comment"]].copy()
             st.dataframe(clean_display, hide_index=True, use_container_width=True)
             csv_data = clean_display.to_csv(index=False).encode("utf-8")
-            st.download_button("📥 Download Reviews CSV", csv_data, "zomato_rag_retrieved_reviews.csv", "text/csv")
+            st.download_button("📥 Download Reviews CSV", csv_data, "anytime_food_rag_retrieved_reviews.csv", "text/csv")
 
 
 # ============================================================
@@ -1122,7 +1122,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#64748B;">
-        <span>Zomato Analytics Pipeline • Powered by Snowflake & Groq LPU</span>
+        <span>Anytime-Food Analytics Pipeline • Powered by Snowflake & Groq LPU</span>
         <span>Version 2.0 • Hybrid Intelligence Studio</span>
     </div>
     """,

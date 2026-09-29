@@ -9,7 +9,8 @@ FROM apache/airflow:3.0.3
 RUN pip install --no-cache-dir \
       apache-airflow-providers-snowflake \
       apache-airflow-providers-fab \
-      groq
+      groq \
+      python-dotenv
 
 
 # ------------------------------------------------------------

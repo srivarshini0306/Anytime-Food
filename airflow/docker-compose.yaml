@@ -40,6 +40,9 @@ x-airflow-common: &airflow-common
     SNOWFLAKE_ACCOUNT: ${SNOWFLAKE_ACCOUNT}
     SNOWFLAKE_USER: ${SNOWFLAKE_USER}
     SNOWFLAKE_PASSWORD: ${SNOWFLAKE_PASSWORD}
+    SNOWFLAKE_WAREHOUSE: ${SNOWFLAKE_WAREHOUSE:-ANYTIME_FOOD_WH}
+    SNOWFLAKE_DATABASE: ${SNOWFLAKE_DATABASE:-ANYTIME_FOOD}
+    SNOWFLAKE_SCHEMA: ${SNOWFLAKE_SCHEMA:-AI}
 
     # Groq API key for AI tasks
     GROQ_API_KEY: ${GROQ_API_KEY}
@@ -48,14 +51,14 @@ x-airflow-common: &airflow-common
     SAMPLE_N: ${SAMPLE_N:-5}
 
     # Airflow Snowflake connection
-    AIRFLOW_CONN_SNOWFLAKE_DEFAULT: '{"conn_type":"snowflake","login":"${SNOWFLAKE_USER}","password":"${SNOWFLAKE_PASSWORD}","schema":"RAW","extra":{"account":"${SNOWFLAKE_ACCOUNT}","warehouse":"ZOMATO_WH","database":"ZOMATO","role":"DBT_ROLE"}}'
+    AIRFLOW_CONN_SNOWFLAKE_DEFAULT: '{"conn_type":"snowflake","login":"${SNOWFLAKE_USER}","password":"${SNOWFLAKE_PASSWORD}","schema":"RAW","extra":{"account":"${SNOWFLAKE_ACCOUNT}","warehouse":"ANYTIME_FOOD_WH","database":"ANYTIME_FOOD","role":"DBT_ROLE"}}'
 
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
 
     # Your dbt project
-    - ../zomato:/opt/airflow/dbt/zomato
+    - ../Anytime-Food:/opt/airflow/dbt/anytime-food
 
     # Your AI scripts
     - ../ai:/opt/airflow/ai

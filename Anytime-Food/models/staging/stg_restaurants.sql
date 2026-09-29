@@ -1,5 +1,3 @@
--- parse the messy dimension (-- →null, 50+ ratings→50, ₹ 200→200, city after last comma):
-
 select 
     id::number as restaurant_id, 
     name as restaurant_name,

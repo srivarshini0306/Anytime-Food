@@ -5,7 +5,10 @@ Welcome to your new dbt project!
 Try running the following commands:
 - dbt run
 - dbt test
+- dbt docs generate
+- dbt docs serve
 
+> **Note for Windows PowerShell**: Use `;` instead of `&&` when chaining commands (e.g., `dbt docs generate; dbt docs serve`).
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
